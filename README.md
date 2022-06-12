@@ -8,7 +8,7 @@
 - `pip install -r requirements.txt` for install dependencies
 - `pip install -e .` to install `src`
 
-#### Front-End
+## 2. Streamlit Front-End
 
 At the main directory
 
