@@ -96,7 +96,7 @@ if __name__ == "__main__":
             image_path = url = fetch_image_urls(artist_name, 1, wd=wd, sleep_between_interactions=0.5).pop()
         writer.writerow([index, artist_name, image_path])
         print()
-
+    #xoomw
     input_file.close()
     output_file.close()
     wd.quit()
