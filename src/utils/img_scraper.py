@@ -86,17 +86,27 @@ if __name__ == "__main__":
     input_file = open(config.ARTIST_LIST_PATH, "r")
     output_file = open(config.ARTIST_IMAGE_PATH, "a", newline="\n")
     
-    last_index = 36 # <-- found in config.ARTIST_IMAGE_PATH, to continue the scraping where we left off, not from the beginning
+    last_index = 2835 # <-- found in config.ARTIST_IMAGE_PATH, to continue the scraping where we left off, not from the beginning
     for row in input_file:
-        index, artist_name, image_path = row.split(",")
+        row_split = row.split(",")
+        if len(row_split) > 3:
+            index = row_split[0]
+            artist_name = ",".join(row_split[1:-1])
+            image_path = row_split[-1]
+        else:
+            index, artist_name, image_path = row.split(",")
+
         writer = csv.writer(output_file)
         if index == "" or int(index) <= last_index:
             continue
         else:
-            image_path = url = fetch_image_urls(artist_name, 1, wd=wd, sleep_between_interactions=0.5).pop()
+            try:
+                image_path = fetch_image_urls(artist_name, 1, wd=wd, sleep_between_interactions=0.5).pop()
+            except TimeoutError:
+                image_path = "https://cdn3.vectorstock.com/i/1000x1000/37/07/not-available-sign-or-stamp-vector-22523707.jpg"
         writer.writerow([index, artist_name, image_path])
-        print()
-    #xoomw
+        print(f"Inserted {index} - {artist_name}")
+
     input_file.close()
     output_file.close()
     wd.quit()
