@@ -53,3 +53,5 @@ Thumbs.db
 *.mov
 *.wmv
 
+/src/utils/.ipynb_checkpoints
+/src/utils/test.ipynb
