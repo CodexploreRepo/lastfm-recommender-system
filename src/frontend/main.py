@@ -1,6 +1,7 @@
 import streamlit as st
 from src import config
 from src.frontend.component.image_gallery import image_grid
+from src.utils import song_scraper
 import pandas as pd
 
 import datetime
@@ -27,7 +28,27 @@ st.write(f"""
 image_grid()
 
 
-st.balloons()
+# get top artist
+st.write(f"Most Popular Artist in {config.COUNTRY}")
+top_artist = song_scraper.get_top_artist_by_geo("Singapore")
+if 'Error' in top_artist:
+    st.write("Can't fetch any artists")
+else:
+    for tr in top_artist:
+        url = tr['url']
+        st.markdown(f"[- {tr['name']}](%s)" % url)
+
+
+# get top tracks
+st.write(f"Most Popular Song in {config.COUNTRY}")
+top_song = song_scraper.get_top_track_by_geo("Singapore")
+if 'Error' in top_song:
+    st.write("Can't fetch any tracks")
+else:
+    for tr in top_song:
+        url = tr['url']
+        st.markdown(f"[- {tr['name']}](%s)" % url)
+# st.balloons()
 # with st.spinner('Wait for it...'):
 #     time.sleep(5)
 # st.success('Done!')
