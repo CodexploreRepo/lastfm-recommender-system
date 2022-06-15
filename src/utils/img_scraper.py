@@ -86,7 +86,7 @@ if __name__ == "__main__":
     input_file = open(config.ARTIST_LIST_PATH, "r")
     output_file = open(config.ARTIST_IMAGE_PATH, "a", newline="\n")
     
-    last_index = 9388 # <-- found in config.ARTIST_IMAGE_PATH, to continue the scraping where we left off, not from the beginning
+    last_index = 15213 # <-- found in config.ARTIST_IMAGE_PATH, to continue the scraping where we left off, not from the beginning
     for row in input_file:
         row_split = row.split(",")
         if len(row_split) > 3:
