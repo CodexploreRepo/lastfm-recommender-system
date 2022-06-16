@@ -10,7 +10,7 @@ def image_grid(user_id):
     # print(config.ARTIST_IMAGE_PATH)
     artist_list = get_recommend_by_user_id(user_id)
 
-    num_artist = st.slider("Select Number of Artists for Recommendation", min_value=2, max_value=len(artist_list))
+    num_artist = st.slider("Select Number of Artists for Recommendation", min_value=2, max_value=15)
     
     artist_list_new = artist_list[:num_artist]
     print(artist_list_new)
