@@ -2,6 +2,7 @@
 
 from src import config
 import pandas as pd
+from os import path
 
 def get_recomendation(file):
     users = []
@@ -19,7 +20,8 @@ def get_recommend_by_user_id(idx, model):
     idx = int(idx)
     print(idx)
     print(config.RESULT)
-    users = get_recomendation(f"{config.RESULT}\{model}.txt")
+    model_result_file = path.join(config.RESULT, f"{model}.txt")
+    users = get_recomendation(model_result_file)
     artist = pd.read_csv(config.ARTIST_DAT, sep='\t')
     artist.name = artist.name.apply(lambda x: str(x))
     # artist_name = artist.artist_name[users[0]]
