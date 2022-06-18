@@ -9,8 +9,8 @@ def image_grid(user_id, num_artist, model):
     # # Visualize aritst
     # print(config.ARTIST_IMAGE_PATH)
     ## Make up code to run
-    if model != "CTR":
-        model = "CTR"
+    # if model != "CTR":
+    #     model = "CTR"
     artist_list = get_recommend_by_user_id(user_id, model)
 
 

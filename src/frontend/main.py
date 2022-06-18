@@ -18,7 +18,7 @@ st.set_page_config(page_title=config.PAGE_TITLE, layout="wide", initial_sidebar_
 
 # List of recommendation
 user_list = name_generation(config.NUM_OF_USERS)
-models =["CTR", "SoRec", "BPR"]
+models =["MostPop",  "WMF", "SoRec", "BPR", "VAECF", "CTR"]
 index = st.sidebar.selectbox("User List", range(len(user_list)), format_func=lambda x: user_list[x])
 model = st.sidebar.selectbox("Model List", models)
 
