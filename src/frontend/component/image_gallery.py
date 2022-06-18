@@ -5,10 +5,13 @@ from src.utils import song_scraper
 from itertools import cycle
 from src.utils.util import get_recommend_by_user_id
 # user_id as index
-def image_grid(user_id, num_artist):
+def image_grid(user_id, num_artist, model):
     # # Visualize aritst
     # print(config.ARTIST_IMAGE_PATH)
-    artist_list = get_recommend_by_user_id(user_id)
+    ## Make up code to run
+    if model != "CTR":
+        model = "CTR"
+    artist_list = get_recommend_by_user_id(user_id, model)
 
 
     artist_list_new = artist_list[:num_artist]

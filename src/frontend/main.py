@@ -20,8 +20,8 @@ st.set_page_config(page_title=config.PAGE_TITLE, layout="wide", initial_sidebar_
 user_list = name_generation(config.NUM_OF_USERS)
 models =["CTR", "SoRec", "BPR"]
 index = st.sidebar.selectbox("User List", range(len(user_list)), format_func=lambda x: user_list[x])
-model_id = st.sidebar.selectbox("Model List", range(len(models)), format_func=lambda x: models[x])
-num_artist = st.slider("Select Number of Artists for Recommendation", min_value=2, max_value=15)
+model = st.sidebar.selectbox("Model List", models)
+
 
 user_name = user_list[index]
 # st.write("index:", index)
@@ -30,14 +30,14 @@ st.write(f"""
     ### {greeting}, {user_name} ! 
     #### Personalized Music Recommendation
 """)
+num_artist = st.slider("Select Number of Artists for Recommendation", min_value=2, max_value=15)
+image_grid(index, num_artist, model)
 
-image_grid(index, num_artist)
-
-if model_id == 1:
+if model == 'SoRec':
     friends = ["Anh", "Linh", "Quan"]
     friend_id = st.sidebar.selectbox("Friend List", range(3), format_func=lambda x: friends[x])
     st.write(f"### Recommend for your friend, {friends[friend_id]}")
-    image_grid(friend_id, num_artist)
+    image_grid(friend_id, num_artist, "CTR")
 
 # get top artist
 st.write(f"Most Popular Artist in {config.COUNTRY}")

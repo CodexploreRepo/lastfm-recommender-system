@@ -13,7 +13,7 @@ USER_AGENT = "Dataquest"
 LIMIT_TOP=5
 COUNTRY = "Singapore"
 
-RESULT = Path(__file__).resolve().parents[1]/"data/result.txt"
+RESULT = Path(__file__).resolve().parents[1]/"data/models/"
 ARTIST_DAT = Path(__file__).resolve().parents[1]/"data/artists.dat"
 NAMES = Path(__file__).resolve().parents[1]/"data/names.txt"
 NUM_OF_USERS = 1753

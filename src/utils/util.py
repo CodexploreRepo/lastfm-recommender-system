@@ -15,10 +15,11 @@ def get_recomendation(file):
             users.append(artists)
     return users
 
-def get_recommend_by_user_id(idx):
+def get_recommend_by_user_id(idx, model):
     idx = int(idx)
     print(idx)
-    users = get_recomendation(config.RESULT)
+    print(config.RESULT)
+    users = get_recomendation(f"{config.RESULT}\{model}.txt")
     artist = pd.read_csv(config.ARTIST_DAT, sep='\t')
     artist.name = artist.name.apply(lambda x: str(x))
     # artist_name = artist.artist_name[users[0]]
