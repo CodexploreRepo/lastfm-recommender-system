@@ -3,22 +3,24 @@ import streamlit as st
 from src import config
 from src.utils import song_scraper
 from itertools import cycle
-from src.utils.util import get_recommend_by_user_id
+from src.utils.util import get_recommend_by_user_id, get_user_index
 # user_id as index
-def image_grid(user_id, num_artist, model):
+def image_grid(user_name, num_artist, model):
     # # Visualize aritst
     # print(config.ARTIST_IMAGE_PATH)
     ## Make up code to run
-    if model != "CTR":
-        model = "CTR"
+    # if model != "CTR":
+    #     model = "CTR"
+    user_id = get_user_index(user_name)
     artist_list = get_recommend_by_user_id(user_id, model)
-
+    # print(artist_list)
 
     artist_list_new = artist_list[:num_artist]
-    print(artist_list_new)
-    image_path_df = pd.read_csv(config.ARTIST_IMAGE_PATH)
+    # print(artist_list_new)
+    image_path_df = pd.read_csv(config.ARTIST_IMAGE_PATH, sep="\t")
     image_path = []
     for name in artist_list_new:
+        print(name)
         path = image_path_df[image_path_df.artist_name == name].image_path.values[0]
         image_path.append(path)
     print(image_path)
