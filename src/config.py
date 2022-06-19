@@ -15,5 +15,6 @@ COUNTRY = "Singapore"
 
 RESULT = Path(__file__).resolve().parents[1]/"data/models/"
 ARTIST_DAT = Path(__file__).resolve().parents[1]/"data/artists.dat"
+USER_DAT = Path(__file__).resolve().parents[1]/"data/users.csv"
 NAMES = Path(__file__).resolve().parents[1]/"data/names.txt"
-NUM_OF_USERS = 1753
+NUM_OF_USERS = 1892

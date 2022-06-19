@@ -42,3 +42,15 @@ def name_generation(num_name):
                 break
             names.append(line.strip())
     return names[:num_name]
+
+def get_user_index(user_name):
+    dat =pd.read_csv(config.USER_DAT, sep ='\t')
+    return dat[dat.name == user_name].index.values[0]
+
+def get_friend_list(user_name):
+    uf = pd.read_csv(config.USER_DAT, sep ='\t')
+    f = uf[uf.name == user_name].friends.values[0]
+    friends = f.split(',')
+    names = [uf[uf.uid == int(fid)].name.values[0] for fid in friends]
+    return names
+

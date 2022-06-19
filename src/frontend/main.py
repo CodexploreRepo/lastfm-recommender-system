@@ -2,7 +2,7 @@ import streamlit as st
 from src import config
 from src.frontend.component.image_gallery import image_grid
 from src.utils import song_scraper
-from src.utils.util import name_generation
+from src.utils.util import name_generation, get_friend_list
 import pandas as pd
 
 import datetime
@@ -31,13 +31,13 @@ st.write(f"""
     #### Personalized Music Recommendation
 """)
 num_artist = st.slider("Select Number of Artists for Recommendation", min_value=2, max_value=15)
-image_grid(index, num_artist, model)
+image_grid(user_name, num_artist, model)
 
 if model == 'SoRec':
-    friends = ["Anh", "Linh", "Quan"]
-    friend_id = st.sidebar.selectbox("Friend List", range(3), format_func=lambda x: friends[x])
-    st.write(f"### Recommend for your friend, {friends[friend_id]}")
-    image_grid(friend_id, num_artist, "CTR")
+    friends = get_friend_list(user_name)
+    friend = st.sidebar.selectbox("Friend List",friends)
+    st.write(f"### Recommend for your friend, {friend}")
+    image_grid(friend, num_artist, model)
 
 # get top artist
 st.write(f"Most Popular Artist in {config.COUNTRY}")
