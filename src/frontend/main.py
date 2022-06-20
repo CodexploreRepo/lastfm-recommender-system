@@ -14,11 +14,9 @@ greeting = "Good Morning" if 5<=hour<12 else "Good Afternoon" if 12<=hour<18 els
 st.set_page_config(page_title=config.PAGE_TITLE, layout="wide", initial_sidebar_state="auto")
 
 
-
-
 # List of recommendation
 user_list = name_generation(config.NUM_OF_USERS)
-models =["MostPop",  "WMF", "SoRec", "BPR", "VAECF", "CTR"]
+models =["MostPop",  "WMF", "SoRec", "BPR", "VAECF", "CTR", "Ensemble"]
 index = st.sidebar.selectbox("User List", range(len(user_list)), format_func=lambda x: user_list[x])
 model_list = st.sidebar.multiselect("Model Selection", models)
 
@@ -32,7 +30,7 @@ st.write(f"""
 """)
 num_artist = st.slider("Select Number of Artists for Recommendation", min_value=2, max_value=15)
 for model in model_list:
-    st.write(f"#### Suggestions from {model}")
+    st.write(f"#### Suggestions from {model} Model")
     image_grid(user_name, num_artist, model)
 
     if model == 'SoRec':
@@ -50,7 +48,6 @@ else:
     for tr in top_artist:
         url = tr['url']
         st.markdown(f"[{tr['name']}](%s)" % url)
-
 
 # get top tracks
 st.write(f"### Most Popular Song NOW in {config.COUNTRY}")
