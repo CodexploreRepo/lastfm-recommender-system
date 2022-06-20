@@ -4,13 +4,13 @@ from src import config
 from src.utils import song_scraper
 from itertools import cycle
 from src.utils.util import get_recommend_by_user_id, get_user_index
+from PIL import Image
+
 # user_id as index
 def image_grid(user_name, num_artist, model):
     # # Visualize aritst
     # print(config.ARTIST_IMAGE_PATH)
-    ## Make up code to run
-    # if model != "CTR":
-    #     model = "CTR"
+    st.write(f"### Recommendation by {model}")
     user_id = get_user_index(user_name)
     artist_list = get_recommend_by_user_id(user_id, model)
     # print(artist_list)

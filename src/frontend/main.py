@@ -4,7 +4,7 @@ from src.frontend.component.image_gallery import image_grid
 from src.utils import song_scraper
 from src.utils.util import name_generation, get_friend_list
 import pandas as pd
-
+import time
 import datetime
 hour = datetime.datetime.now().hour
 
@@ -20,7 +20,7 @@ st.set_page_config(page_title=config.PAGE_TITLE, layout="wide", initial_sidebar_
 user_list = name_generation(config.NUM_OF_USERS)
 models =["MostPop",  "WMF", "SoRec", "BPR", "VAECF", "CTR"]
 index = st.sidebar.selectbox("User List", range(len(user_list)), format_func=lambda x: user_list[x])
-model = st.sidebar.selectbox("Model List", models)
+selected_models = st.sidebar.multiselect("Model List", models)
 
 
 user_name = user_list[index]
@@ -31,44 +31,56 @@ st.write(f"""
     #### Personalized Music Recommendation
 """)
 num_artist = st.slider("Select Number of Artists for Recommendation", min_value=2, max_value=15)
-image_grid(user_name, num_artist, model)
+for model in selected_models:
+    image_grid(user_name, num_artist, model)
 
-if model == 'SoRec':
+if selected_models == ['SoRec']:
     friends = get_friend_list(user_name)
     friend = st.sidebar.selectbox("Friend List",friends)
     st.write(f"### Recommend for your friend, {friend}")
-    image_grid(friend, num_artist, model)
+    image_grid(friend, num_artist, selected_model[0])
 
 # get top artist
-st.write(f"Most Popular Artist in {config.COUNTRY}")
-top_artist = song_scraper.get_top_artist_by_geo("Singapore")
-if 'Error' in top_artist:
-    st.write("Can't fetch any artists")
-else:
-    for tr in top_artist:
-        url = tr['url']
-        st.markdown(f"[- {tr['name']}](%s)" % url)
+col1, col2, col3 = st.columns(3)
+with col2:
+    st.write(f"##### Most Popular Artist in {config.COUNTRY}")
+    top_artist = song_scraper.get_top_artist_by_geo("Singapore")
+    if 'Error' in top_artist:
+        st.write("Can't fetch any artists")
+    else:
+        for tr in top_artist:
+            url = tr['url']
+            st.markdown(f"[- {tr['name']}](%s)" % url)
 
-
-# get top tracks
-st.write(f"Most Popular Song in {config.COUNTRY}")
-top_song = song_scraper.get_top_track_by_geo("Singapore")
-if 'Error' in top_song:
-    st.write("Can't fetch any tracks")
-else:
-    for tr in top_song:
-        url = tr['url']
-        st.markdown(f"[- {tr['name']}](%s)" % url)
+with col3:
+    # get top tracks
+    st.write(f"##### Most Popular Song in {config.COUNTRY}")
+    top_song = song_scraper.get_top_track_by_geo("Singapore")
+    if 'Error' in top_song:
+        st.write("Can't fetch any tracks")
+    else:
+        for tr in top_song:
+            url = tr['url']
+            st.markdown(f"[- {tr['name']}](%s)" % url)
 # st.balloons()
 # with st.spinner('Wait for it...'):
 #     time.sleep(5)
 # st.success('Done!')
 # genre_names = ['Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
 # audio_feats = ["acousticness", "danceability", "energy", "instrumentalness", "valence", "tempo"]
-
-
+#
+# def n_neighbors_uri_audio(genre, start_year, end_year, test_feat):
+#     genre = genre.lower()
+#     genre_data = exploded_track_df[(exploded_track_df["genres"]==genre) & (exploded_track_df["release_year"]>=start_year) & (exploded_track_df["release_year"]<=end_year)]
+#     genre_data = genre_data.sort_values(by='popularity', ascending=False)[:500]
+#     neigh = NearestNeighbors()
+#     neigh.fit(genre_data[audio_feats].to_numpy())
+#     n_neighbors = neigh.kneighbors([test_feat], n_neighbors=len(genre_data), return_distance=False)[0]
+#     uris = genre_data.iloc[n_neighbors]["uri"].tolist()
+#     audios = genre_data.iloc[n_neighbors][audio_feats].to_numpy()
+#     return uris, audios
 # def page():
-
+#
 #     with st.container():
 #         col1, col2,col3,col4 = st.columns((2,0.5,0.5,0.5))
 #         with col3:
@@ -100,34 +112,34 @@ else:
 #             tempo = st.slider(
 #                 'Tempo',
 #                 0.0, 244.0, 118.0)
-
+#
 #     tracks_per_page = 6
 #     test_feat = [acousticness, danceability, energy, instrumentalness, valence, tempo]
 #     uris, audios = n_neighbors_uri_audio(genre, start_year, end_year, test_feat)
-
+#
 #     tracks = []
 #     for uri in uris:
 #         track = """<iframe src="https://open.spotify.com/embed/track/{}" width="260" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>""".format(uri)
 #         tracks.append(track)
-
+#
 #     if 'previous_inputs' not in st.session_state:
 #         st.session_state['previous_inputs'] = [genre, start_year, end_year] + test_feat
-    
+#
 #     current_inputs = [genre, start_year, end_year] + test_feat
 #     if current_inputs != st.session_state['previous_inputs']:
 #         if 'start_track_i' in st.session_state:
 #             st.session_state['start_track_i'] = 0
 #         st.session_state['previous_inputs'] = current_inputs
-
+#
 #     if 'start_track_i' not in st.session_state:
 #         st.session_state['start_track_i'] = 0
-    
+#
 #     with st.container():
 #         col1, col2, col3 = st.columns([2,1,2])
 #         if st.button("Recommend More Songs"):
 #             if st.session_state['start_track_i'] < len(tracks):
 #                 st.session_state['start_track_i'] += tracks_per_page
-
+#
 #         current_tracks = tracks[st.session_state['start_track_i']: st.session_state['start_track_i'] + tracks_per_page]
 #         current_audios = audios[st.session_state['start_track_i']: st.session_state['start_track_i'] + tracks_per_page]
 #         if st.session_state['start_track_i'] < len(tracks):
@@ -145,7 +157,7 @@ else:
 #                             fig = px.line_polar(df, r='r', theta='theta', line_close=True)
 #                             fig.update_layout(height=400, width=340)
 #                             st.plotly_chart(fig)
-            
+#
 #                 else:
 #                     with col3:
 #                         components.html(
@@ -159,8 +171,8 @@ else:
 #                             fig = px.line_polar(df, r='r', theta='theta', line_close=True)
 #                             fig.update_layout(height=400, width=340)
 #                             st.plotly_chart(fig)
-
+#
 #         else:
 #             st.write("No songs left to recommend")
-
+#
 # page()
