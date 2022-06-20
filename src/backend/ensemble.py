@@ -8,8 +8,8 @@ for model_result in config.RESULT.glob("*.txt"):
     result = get_recomendation(model_result)
     model_name = model_result.stem
     # print(f"{model_name}:{len(result)}")
-    
-    result_dict.setdefault(model_name, result)
+    if model_name != "MostPop":
+        result_dict.setdefault(model_name, result)
 
 with open(config.RESULT / "Ensemble.txt", "w") as f:
     for user_id in range(1892):
