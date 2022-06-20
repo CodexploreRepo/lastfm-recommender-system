@@ -4,7 +4,6 @@ from src import config
 from src.utils import song_scraper
 from itertools import cycle
 from src.utils.util import get_recommend_by_user_id, get_user_index
-from PIL import Image
 
 # user_id as index
 def image_grid(user_name, num_artist, model):
