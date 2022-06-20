@@ -3,12 +3,11 @@ from src.utils.util import get_recomendation
 import collections
 result_dict = {}
 
-
 for model_result in config.RESULT.glob("*.txt"):
     result = get_recomendation(model_result)
     model_name = model_result.stem
     # print(f"{model_name}:{len(result)}")
-    if model_name != "MostPop":
+    if model_name not in ["MostPop", "SoRec"]:
         result_dict.setdefault(model_name, result)
 
 with open(config.RESULT / "Ensemble.txt", "w") as f:
