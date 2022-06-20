@@ -14,6 +14,7 @@ LIMIT_TOP=5
 COUNTRY = "Singapore"
 
 RESULT = Path(__file__).resolve().parents[1]/"data/models/"
+IMAGES = Path(__file__).resolve().parents[1]/"data/images/"
 ARTIST_DAT = Path(__file__).resolve().parents[1]/"data/artists.dat"
 USER_DAT = Path(__file__).resolve().parents[1]/"data/users.csv"
 NAMES = Path(__file__).resolve().parents[1]/"data/names.txt"
