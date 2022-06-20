@@ -1,9 +1,12 @@
 import streamlit as st
 from src import config
 from src.frontend.component.image_gallery import image_grid
+from src.frontend.component import display_logo
 from src.utils import song_scraper
 from src.utils.util import name_generation, get_friend_list
 import pandas as pd
+
+
 
 import datetime
 hour = datetime.datetime.now().hour
@@ -17,13 +20,18 @@ st.set_page_config(page_title=config.PAGE_TITLE, layout="wide", initial_sidebar_
 # List of recommendation
 user_list = name_generation(config.NUM_OF_USERS)
 models =["MostPop",  "WMF", "SoRec", "BPR", "VAECF", "CTR", "Ensemble"]
+
+display_logo()
+
 index = st.sidebar.selectbox("User List", range(len(user_list)), format_func=lambda x: user_list[x])
 model_list = st.sidebar.multiselect("Model Selection", models)
 
 
 user_name = user_list[index]
 # st.write("index:", index)
-st.title(config.TITLE)
+
+
+st.write(f"# {config.TITLE}")
 st.write(f"""
     ### {greeting}, {user_name} ! 
     #### Personalized Music Recommendation
