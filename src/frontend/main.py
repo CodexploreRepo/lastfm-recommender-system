@@ -24,7 +24,7 @@ models =["MostPop",  "WMF", "SoRec", "BPR", "VAECF", "CTR", "Ensemble"]
 display_logo()
 
 index = st.sidebar.selectbox("User List", range(len(user_list)), format_func=lambda x: user_list[x])
-model_list = st.sidebar.multiselect("Model Selection", models)
+model_list = st.sidebar.multiselect("Model Selection", models, default= "WMF")
 
 
 user_name = user_list[index]
@@ -36,7 +36,7 @@ st.write(f"""
     ### {greeting}, {user_name} ! 
     #### Personalized Music Recommendation
 """)
-num_artist = st.slider("Select Number of Artists for Recommendation", min_value=2, max_value=15)
+num_artist = st.slider("Select Number of Artists for Recommendation", min_value=5, max_value=15)
 for model in model_list:
     st.write(f"#### Suggestions from {model} Model")
     image_grid(user_name, num_artist, model)

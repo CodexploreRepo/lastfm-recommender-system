@@ -1,0 +1,1 @@
+web: pip install -e . && sh setup.sh && streamlit run src/frontend/main.py

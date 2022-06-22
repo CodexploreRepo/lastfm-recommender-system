@@ -4,7 +4,8 @@ from src import config
 from src.utils import song_scraper
 from itertools import cycle
 from src.utils.util import get_recommend_by_user_id, get_user_index
-
+from PIL import Image
+import urllib.request
 
 
 # user_id as index
@@ -29,9 +30,11 @@ def image_grid(user_name, num_artist, model):
     print(image_path)
     cols = st.columns(len(artist_list_new)) # st.columns here since it is out of beta at the time I'm writing this
     for idx, filteredImage in enumerate(image_path):
-        print(idx)
         artist_name = artist_list_new[idx]
-        cols[idx].image(filteredImage, use_column_width=True, caption=artist_list_new[idx].title())
+        urllib.request.urlretrieve(filteredImage, "gfg.png")
+        image = Image.open("gfg.png")
+        new_image = image.resize((400, 400))
+        cols[idx].image(new_image, use_column_width=True, caption=artist_list_new[idx].title())
         tracks = song_scraper.get_top_track_by_artist(artist_name)
         if 'Error' in tracks:
             cols[idx].write("Can't fetch any song")
