@@ -4,6 +4,7 @@ from src import config
 import pandas as pd
 from os import path
 
+
 def get_recomendation(file):
     users = []
     with open(file, "r") as f:
@@ -15,6 +16,7 @@ def get_recomendation(file):
             artists = [int(idx) for idx in artists]
             users.append(artists)
     return users
+
 
 def get_recommend_by_user_id(idx, model):
     idx = int(idx)
@@ -33,6 +35,12 @@ def get_recommend_by_user_id(idx, model):
     return artist_name
 
 
+def get_artist_link(artist_name):
+    artists = pd.read_csv(config.ARTIST_DAT, sep='\t')
+    url = artists[artists.name == artist_name].url.values[0]
+    return url
+
+
 def name_generation(num_name):
     names = []
     with open(config.NAMES, "r") as f:
@@ -43,9 +51,11 @@ def name_generation(num_name):
             names.append(line.strip())
     return names[:num_name]
 
+
 def get_user_index(user_name):
     dat =pd.read_csv(config.USER_DAT, sep ='\t')
     return dat[dat.name == user_name].index.values[0]
+
 
 def get_friend_list(user_name):
     uf = pd.read_csv(config.USER_DAT, sep ='\t')

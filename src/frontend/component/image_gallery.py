@@ -3,7 +3,7 @@ import streamlit as st
 from src import config
 from src.utils import song_scraper
 from itertools import cycle
-from src.utils.util import get_recommend_by_user_id, get_user_index
+from src.utils.util import get_recommend_by_user_id, get_user_index, get_artist_link
 from PIL import Image
 import urllib.request
 
@@ -31,10 +31,12 @@ def image_grid(user_name, num_artist, model):
     cols = st.columns(len(artist_list_new)) # st.columns here since it is out of beta at the time I'm writing this
     for idx, filteredImage in enumerate(image_path):
         artist_name = artist_list_new[idx]
+        artist_link = get_artist_link(artist_name)
         urllib.request.urlretrieve(filteredImage, "gfg.png")
         image = Image.open("gfg.png")
         new_image = image.resize((400, 400))
-        cols[idx].image(new_image, use_column_width=True, caption=artist_list_new[idx].title())
+        cols[idx].image(new_image, use_column_width=True)
+        cols[idx].markdown(f'<a style="color: gray;" href = {artist_link}>{artist_list_new[idx].title()}</a>', unsafe_allow_html=True)
         tracks = song_scraper.get_top_track_by_artist(artist_name)
         if 'Error' in tracks:
             cols[idx].write("Can't fetch any song")
@@ -48,3 +50,4 @@ def image_grid(user_name, num_artist, model):
             
     #         col.image(image_path[idx], width=150, height=100, caption=artist_list[idx])
 
+st.markdown
